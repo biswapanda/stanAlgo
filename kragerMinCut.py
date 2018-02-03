@@ -18,11 +18,10 @@ def get_next_id():
 def load_graph():
    G = {}
    global RES
-   with open(TEST_DIR + "/" + sys.argv[1].replace("input", "output")) as f:
-      RES = int(f.read().strip())
-
-   with open(TEST_DIR + "/" + sys.argv[1]) as f:
-   # with open("/Users/bis/Desktop/krager.txt") as f:
+   # with open(TEST_DIR + "/" + sys.argv[1].replace("input", "output")) as f:
+   #   RES = int(f.read().strip())
+   # with open(TEST_DIR + "/" + sys.argv[1]) as f:
+   with open("/Users/bis/Desktop/krager.txt") as f:
       for line in f:
          if not line.strip():
             continue
@@ -46,25 +45,19 @@ def min_cut(G):
       edge = random.choice(edges)
       u, v = edge
       s = get_next_id()
-      remove_edges = []
-      new_edges = []
+      edges2 = []
       for e in edges:
          if e in [(u, v), (v, u)]:
-            remove_edges.append(e)
             continue
          u1, v1 = e
          if u1 in {u, v}:
-            new_edges.append((s, v1))
-            remove_edges.append(e)
+            edges2.append((s, v1))
             continue
          if v1 in {u, v}:
-            new_edges.append((u1, s))
-            remove_edges.append(e)
+            edges2.append((u1, s))
             continue
-      for e in remove_edges:
-         edges.remove(e)
-      for e in new_edges:
-         edges.append(e)
+         edges2.append(e)
+      edges = edges2
    return len(edges) / 2
 
 
