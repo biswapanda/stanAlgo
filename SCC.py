@@ -3,6 +3,9 @@ import random
 import pprint
 import time
 import sys
+import resource
+
+# resource.setrlimit(resource.RLIMIT_STACK, (resource.RLIM_INFINITY, resource.RLIM_INFINITY))
 
 sys.setrecursionlimit(150000)
 
