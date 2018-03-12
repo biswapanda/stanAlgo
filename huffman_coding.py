@@ -1,13 +1,14 @@
 import time
+import heapq
 import os
 import sys
 
 
 def input_data_path():
-   # return "/Users/bis/Desktop/mwis.txt"
-   TEST_DIR = "/Users/bis/dev/stanford-algs/" \
-              "testCases/course3/assignment3HuffmanAndMWIS/question1And2/"
-   return os.path.join(TEST_DIR, sys.argv[1])
+   return "/home/bis/Desktop/huffman.txt"
+   # TEST_DIR = "/home/bis/dev/stanford-algs/" \
+   #            "testCases/course3/assignment3HuffmanAndMWIS/question1And2/"
+   # return os.path.join(TEST_DIR, sys.argv[1])
 
 
 def load_data():
@@ -25,8 +26,39 @@ def load_data():
    return V
 
 
-def huffman_coding(V):
-  pass
+class TreeNode(object):
+
+  def __init__(self, val):
+    self.left = None
+    self.right = None
+    self.val = val
+
+  def __repr__(self):
+    return "<V=%s L:%s R:%s>" % (self.val, self.left, self.right)
+
+
+def depth(T, op):
+  if T is None:
+    return 0
+  return 1 + op(depth(T.left, op),
+                depth(T.right, op))
+
+
+def huffman_coding(V, debug=False):
+  L = [(x, TreeNode(x)) for x in V]
+  heapq.heapify(L)
+  while len(L) != 1:
+    _, u = heapq.heappop(L)
+    _, v = heapq.heappop(L)
+    n = TreeNode(u.val + v.val)
+    n.left = u
+    n.right = v
+    heapq.heappush(L, (n.val, n))
+  if debug:
+    print L
+  max_code_len = depth(L[0][1], op=max) - 1
+  min_code_len = depth(L[0][1], op=min) - 1
+  return min_code_len, max_code_len
 
 
 def rec_sum(L):
@@ -40,18 +72,17 @@ def rec_sum(L):
 
 def main():
    V = load_data()
-   encoding = huffman_coding(V)
-   # actual = ''.join(str(int(x in S)) for x in [1, 2, 3, 4, 17, 117, 517, 997])
-   # print actual
-   # return
-   # expected = open(input_data_path().replace("in", "out")).read().strip()
-   # if actual == expected:
+   min_code_len, max_code_len = huffman_coding(V)
+   actual = [max_code_len, min_code_len]
+   print actual
+   # expected = open(input_data_path().replace("in", "out")).read().strip().split()
+   # expected = [int(x) for x in expected]
+   # if  actual == expected:
    #    return
    # print "-" * 100
-   # print A
-   # print S
    # print "actual =", actual
    # print "expected =", expected
+   # huffman_coding(V, debug=True)
    # print "-" * 100
 
 
