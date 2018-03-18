@@ -39,14 +39,12 @@ def optimal_value():
 def main():
   ret = optimal_value()
   p = input_data_path()
-  if "input" in p:
-    expected = int(open(p.replace("input", "output")).read())
-    if expected != ret:
-      print "expected=%s ret=%d" % (expected, ret)
-    else:
-      print "yay!"
-  else:
+  if "input" not in p:
     print "ret=", ret
+    return
+  expected = int(open(p.replace("input", "output")).read())
+  if expected != ret:
+    print "expected=%s ret=%d" % (expected, ret)
 
 
 if __name__ == "__main__":
